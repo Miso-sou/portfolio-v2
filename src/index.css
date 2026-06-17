@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+/* 1. Define your new Lo-Fi Retro Theme Tokens */
+@theme {
+  --color-os-bg: #96A5C7;
+  /* Soft Pink (Main Desktop/Mobile Background) */
+  --color-os-window: #D2D0E7;
+  /* Soft Lavender (App Window Backgrounds) */
+  --color-os-ink: #3C5564;
+  /* Dark Slate (Text, Borders, Shadows) */
+  --color-os-accent: #F1DAEC;
+  /* Muted Blue (Highlights, Titlebars, Buttons) */
+
+  --font-display: "Press Start 2P", cursive;
+  --font-body: "VT323", monospace;
+
+  /* Updated shadows using the new Dark Slate color for that retro-brutalist pop */
+  --shadow-retro: 6px 6px 0px #3C5564;
+  --shadow-retro-sm: 4px 4px 0px #3C5564;
+  --shadow-retro-active: 2px 2px 0px #3C5564;
+}
+
+/* 2. Global Styles */
+@layer base {
+  * {
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+  }
+
+  img,
+  canvas {
+    image-rendering: pixelated;
+  }
+
+  body {
+    background-color: var(--color-os-bg);
+    color: var(--color-os-ink);
+    font-family: var(--font-body);
+    overflow: hidden;
+    /* Important for the desktop view */
+  }
+
+  /* Smooth scrolling for the mobile view */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Applying the custom image as the desktop background (optional) */
+  .desktop-bg {
+    background-image: url('/background.jpg');
+    /* Put your gif/jpg in the public folder */
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* 3. Custom Utilities */
+@layer utilities {
+
+  /* The Retro Scrollbar (Updated to new palette) */
+  .retro-scrollbar::-webkit-scrollbar {
+    width: 16px;
+    background-color: var(--color-os-window);
+    border-left: 2px solid var(--color-os-ink);
+  }
+
+  .retro-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-os-accent);
+    border: 2px solid var(--color-os-ink);
+  }
+
+  .retro-scrollbar::-webkit-scrollbar-button {
+    display: none;
+  }
+}
