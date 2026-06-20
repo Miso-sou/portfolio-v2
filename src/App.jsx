@@ -1,13 +1,8 @@
 import './App.css'
-import GifClockWidget from './components/widgets/GifClockWidget'
+import Desktop from './components/os/Desktop'
 
 function App() {
-  return (
-    <div className="desktop-container">
-      {/* Right-side widget: GIF placeholder + date/time */}
-      <GifClockWidget />
-    </div>
-  )
+  return <Desktop />
 }
 
 export default App
