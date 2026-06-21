@@ -10,14 +10,26 @@ const appList = Object.values(APPS);
 const STORAGE_KEY = 'desktop-icon-positions';
 const ICON_HEIGHT = 90; // approx icon + label height
 const ICON_WIDTH = 80; // w-20 = 80px
-const ICON_GAP = 104; // vertical spacing between default icons
+const ICON_GAP_Y = 104; // vertical spacing between default icons
+const ICON_GAP_X = 96; // horizontal spacing between columns
+const ICON_START_X = 24;
+const ICON_START_Y = 32;
 const WIDGET_PADDING = 20; // breathing room around widget
+const ICON_COLLISION_PAD = 8; // padding between icons for collision check
 
-/* ── Default icon positions (vertical column, left side) ── */
+/* ── Default icon positions (vertical columns, wrapping when exceeding viewport) ── */
 function getDefaultPositions() {
+  const viewportH = window.innerHeight || 768;
+  const maxPerCol = Math.max(1, Math.floor((viewportH - ICON_START_Y) / ICON_GAP_Y));
+
   const positions = {};
   appList.forEach((app, i) => {
-    positions[app.id] = { x: 24, y: 32 + i * ICON_GAP };
+    const col = Math.floor(i / maxPerCol);
+    const row = i % maxPerCol;
+    positions[app.id] = {
+      x: ICON_START_X + col * ICON_GAP_X,
+      y: ICON_START_Y + row * ICON_GAP_Y,
+    };
   });
   return positions;
 }
@@ -52,19 +64,34 @@ function isOverlappingWidget(iconX, iconY) {
 
   const wr = widget.getBoundingClientRect();
 
-  // Icon rect
-  const iLeft = iconX;
-  const iTop = iconY;
   const iRight = iconX + ICON_WIDTH;
   const iBottom = iconY + ICON_HEIGHT;
 
-  // Widget rect with padding
   const wLeft = wr.left - WIDGET_PADDING;
   const wTop = wr.top - WIDGET_PADDING;
   const wRight = wr.right + WIDGET_PADDING;
   const wBottom = wr.bottom + WIDGET_PADDING;
 
-  return !(iRight < wLeft || iLeft > wRight || iBottom < wTop || iTop > wBottom);
+  return !(iRight < wLeft || iconX > wRight || iBottom < wTop || iconY > wBottom);
+}
+
+/* ── Icon-to-icon overlap detection ── */
+function isOverlappingOtherIcon(appId, x, y, positions) {
+  const pad = ICON_COLLISION_PAD;
+  const aLeft = x - pad;
+  const aTop = y - pad;
+  const aRight = x + ICON_WIDTH + pad;
+  const aBottom = y + ICON_HEIGHT + pad;
+
+  for (const [id, pos] of Object.entries(positions)) {
+    if (id === appId) continue;
+    const bRight = pos.x + ICON_WIDTH;
+    const bBottom = pos.y + ICON_HEIGHT;
+    if (!(aRight < pos.x || aLeft > bRight || aBottom < pos.y || aTop > bBottom)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export default function Desktop() {
@@ -88,7 +115,9 @@ export default function Desktop() {
     // Prevent dropping on top of the widget — snap back
     if (isOverlappingWidget(clampedX, clampedY)) return;
 
+    // Prevent dropping on top of another icon — snap back
     setIconPositions((prev) => {
+      if (isOverlappingOtherIcon(appId, clampedX, clampedY, prev)) return prev;
       const next = { ...prev, [appId]: { x: clampedX, y: clampedY } };
       savePositions(next);
       return next;

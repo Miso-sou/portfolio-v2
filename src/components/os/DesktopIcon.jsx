@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { useWindowStore } from '../../store/windowStore.js';
+import WeatherIcon from './WeatherIcon.jsx';
 
 const DRAG_THRESHOLD = 5;
 
@@ -11,9 +12,30 @@ function FallbackIcon() {
   );
 }
 
+function IconImage({ app }) {
+  const [imgError, setImgError] = useState(false);
+
+  if (app.dynamicIcon) {
+    return <WeatherIcon className="w-12 h-12 pointer-events-none" />;
+  }
+
+  if (!app.icon || imgError) {
+    return <FallbackIcon />;
+  }
+
+  return (
+    <img
+      src={app.icon}
+      className="w-12 h-12 pointer-events-none"
+      alt={app.title}
+      draggable={false}
+      onError={() => setImgError(true)}
+    />
+  );
+}
+
 export default function DesktopIcon({ app, isSelected, onSelect, position, onDragEnd }) {
   const openWindow = useWindowStore((s) => s.openWindow);
-  const [imgError, setImgError] = useState(false);
   const [dragOffset, setDragOffset] = useState(null);
   const dragRef = useRef(null);
 
@@ -86,17 +108,7 @@ export default function DesktopIcon({ app, isSelected, onSelect, position, onDra
       onPointerUp={handlePointerUp}
       onDoubleClick={handleDoubleClick}
     >
-      {imgError ? (
-        <FallbackIcon />
-      ) : (
-        <img
-          src={app.icon}
-          className="w-12 h-12 pointer-events-none"
-          alt={app.title}
-          draggable={false}
-          onError={() => setImgError(true)}
-        />
-      )}
+      <IconImage app={app} />
       <span
         className={`font-display text-[6px] text-center leading-tight break-words w-full pointer-events-none ${
           isSelected ? 'bg-os-ink text-os-accent px-0.5' : 'text-os-ink'
