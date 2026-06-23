@@ -73,4 +73,20 @@
   .retro-scrollbar::-webkit-scrollbar-button {
     display: none;
   }
+
+  /* Blinking cursor for About hero */
+  @keyframes aboutBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .about-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    background: var(--color-os-ink);
+    vertical-align: text-bottom;
+    margin-left: 3px;
+    animation: aboutBlink 0.8s step-end infinite;
+  }
 }

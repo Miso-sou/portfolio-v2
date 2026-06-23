@@ -24,15 +24,15 @@ export const APPS = {
     title: 'About Me',
     icon: notesIcon,
     component: AboutApp,
-    defaultSize: { width: 420, height: 380 },
-    minSize: { width: 300, height: 240 },
+    defaultSize: { width: 950, height: 580 },
+    minSize: { width: 625, height: 240 },
   },
   projects: {
     id: 'projects',
     title: 'Projects',
     icon: programIcon,
     component: ProjectsApp,
-    defaultSize: { width: 620, height: 460 },
+    defaultSize: { width: 720, height: 540 },
     minSize: { width: 360, height: 280 },
   },
   techstacks: {
@@ -40,7 +40,7 @@ export const APPS = {
     title: 'Tech Stacks',
     icon: techStackIcon,
     component: TechStacksApp,
-    defaultSize: { width: 500, height: 420 },
+    defaultSize: { width: 600, height: 500 },
     minSize: { width: 320, height: 280 },
   },
   reachout: {
@@ -48,7 +48,7 @@ export const APPS = {
     title: 'Reach Out',
     icon: envelopeIcon,
     component: ReachOutApp,
-    defaultSize: { width: 400, height: 340 },
+    defaultSize: { width: 500, height: 420 },
     minSize: { width: 280, height: 220 },
   },
   activity: {
@@ -56,7 +56,7 @@ export const APPS = {
     title: 'Activity',
     icon: calendarIcon,
     component: ActivityMapApp,
-    defaultSize: { width: 700, height: 500 },
+    defaultSize: { width: 800, height: 560 },
     minSize: { width: 420, height: 320 },
   },
   weather: {
@@ -65,7 +65,7 @@ export const APPS = {
     icon: null, // Dynamic — handled by WeatherIcon component
     dynamicIcon: true,
     component: WeatherApp,
-    defaultSize: { width: 360, height: 300 },
+    defaultSize: { width: 440, height: 380 },
     minSize: { width: 260, height: 200 },
   },
   clock: {
@@ -73,7 +73,7 @@ export const APPS = {
     title: 'Clock',
     icon: clockIcon,
     component: ClockApp,
-    defaultSize: { width: 360, height: 300 },
+    defaultSize: { width: 440, height: 380 },
     minSize: { width: 240, height: 200 },
   },
   minigame: {
@@ -81,7 +81,7 @@ export const APPS = {
     title: 'Minigame',
     icon: arcadeIcon,
     component: MinigameApp,
-    defaultSize: { width: 500, height: 500 },
+    defaultSize: { width: 600, height: 560 },
     minSize: { width: 320, height: 320 },
   },
   music: {
@@ -89,7 +89,7 @@ export const APPS = {
     title: 'Music Player',
     icon: vinylIcon,
     component: MusicPlayerApp,
-    defaultSize: { width: 380, height: 520 },
+    defaultSize: { width: 460, height: 600 },
     minSize: { width: 300, height: 420 },
   },
 };
