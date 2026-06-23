@@ -7,6 +7,7 @@ import WeatherApp from '../apps/WeatherApp';
 import ClockApp from '../apps/ClockApp';
 import MinigameApp from '../apps/MinigameApp';
 import MusicPlayerApp from '../apps/MusicPlayerApp';
+import ResumeApp from '../apps/ResumeApp';
 
 // Import icon PNGs from assets so Vite hashes & bundles them
 import notesIcon from '../assets/notes.png';
@@ -17,6 +18,8 @@ import calendarIcon from '../assets/calendar.png';
 import clockIcon from '../assets/clock.png';
 import arcadeIcon from '../assets/arcade-machine.png';
 import vinylIcon from '../assets/vinyl player.gif';
+import folderIcon from '../assets/folder.png';
+import resumeIcon from '../assets/resume.png';
 
 export const APPS = {
   about: {
@@ -91,5 +94,13 @@ export const APPS = {
     component: MusicPlayerApp,
     defaultSize: { width: 460, height: 600 },
     minSize: { width: 300, height: 420 },
+  },
+  resume: {
+    id: 'resume',
+    title: 'Resume',
+    icon: resumeIcon,
+    component: ResumeApp,
+    defaultSize: { width: 600, height: 600 },
+    minSize: { width: 400, height: 500 },
   },
 };
