@@ -42,7 +42,7 @@ export default function AboutApp() {
                 Full-Stack Dev &nbsp;// &nbsp;XR Researcher
               </p>
               <p className="font-body text-os-ink text-[14px] mt-0.5 opacity-80">
-                Specializing in the development of efficient, secure backend infrastructure integrated with elegant, user-centric frontend designs.
+                Specializing in the development of efficient &amp; secure backend infrastructure integrated with responsive &amp; user-centric frontend designs.
               </p>
               <p className="font-body text-os-ink text-[16px] mt-0.5">
                 ▸ Open to SDE &amp; Full-Stack roles <span className="about-cursor" />
@@ -57,10 +57,10 @@ export default function AboutApp() {
         <div className="border-l-[3px] border-os-ink pl-3 ml-1">
           <div className="font-body leading-relaxed text-os-ink space-y-3">
             <p>
-              Hi! I'm a B.Tech CSE student at IIIT Sricity (2023–2027), and this pixel-art desktop is my little corner of the internet.
+              Hi! I'm a B.Tech CSE student at IIIT Sricity (2023–2027). This pixel-art desktop is my little corner on the internet.
             </p>
             <p>
-              As a full-stack developer, I focus heavily on engineering efficient, scalable backend systems, but I love pairing them with intuitive and polished frontends. I usually build projects to solve real problems I've faced firsthand, always aiming to craft memorable user experiences that make people think, "I want to use this more."
+              As a full-stack developer, I focus heavily on engineering efficient & scalable backend systems, but I also can pair them with intuitive and polished frontends. I usually build projects to solve real problems I've faced firsthand, always aiming to craft memorable user experiences that make them stick around.
             </p>
             <p>
               Beyond web development, I explore the intersection of people and technology. I serve as the XR Lead for the IOTA Club and actively contribute to our campus HCI Lab, where my work spans from Extended Reality to co-authoring a paper on multimodal accessibility interfaces.
@@ -71,27 +71,6 @@ export default function AboutApp() {
           </div>
         </div>
       </div>
-
-      {/* Section 4 — Tech Stack */}
-      <div>
-        <h2 className="font-display text-[8px] mb-2 text-os-ink">[ STACK ]</h2>
-        <div className="flex flex-wrap gap-1.5">
-          {stack.map((tech) => (
-            <span
-              key={tech}
-              className="border border-os-ink bg-os-window font-body px-2 py-0.5 text-os-ink text-[15px] hover:bg-os-accent transition-colors"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Section 5 — Footer prompt */}
-      <p className="font-display text-[6px] text-center opacity-60 pt-2 border-t-2 border-os-ink mt-2 text-os-ink">
-        DOUBLE-CLICK AN APP TO EXPLORE &nbsp;↗
-      </p>
-
     </div>
   );
 }

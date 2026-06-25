@@ -4,7 +4,6 @@ import TechStacksApp from '../apps/TechStacksApp';
 import ReachOutApp from '../apps/ReachOutApp';
 import ActivityMapApp from '../apps/ActivityMapApp';
 import WeatherApp from '../apps/WeatherApp';
-import ClockApp from '../apps/ClockApp';
 import MinigameApp from '../apps/MinigameApp';
 import MusicPlayerApp from '../apps/MusicPlayerApp';
 import ResumeApp from '../apps/ResumeApp';
@@ -15,7 +14,6 @@ import programIcon from '../assets/program.png';
 import techStackIcon from '../assets/tech stack.png';
 import envelopeIcon from '../assets/envelope.png';
 import calendarIcon from '../assets/calendar.png';
-import clockIcon from '../assets/clock.png';
 import arcadeIcon from '../assets/arcade-machine.png';
 import vinylIcon from '../assets/vinyl player.gif';
 import folderIcon from '../assets/folder.png';
@@ -35,8 +33,8 @@ export const APPS = {
     title: 'Projects',
     icon: programIcon,
     component: ProjectsApp,
-    defaultSize: { width: 720, height: 540 },
-    minSize: { width: 360, height: 280 },
+    defaultSize: { width: 800, height: 520 },
+    minSize: { width: 460, height: 320 },
   },
   techstacks: {
     id: 'techstacks',
@@ -70,14 +68,6 @@ export const APPS = {
     component: WeatherApp,
     defaultSize: { width: 440, height: 380 },
     minSize: { width: 260, height: 200 },
-  },
-  clock: {
-    id: 'clock',
-    title: 'Clock',
-    icon: clockIcon,
-    component: ClockApp,
-    defaultSize: { width: 440, height: 380 },
-    minSize: { width: 240, height: 200 },
   },
   minigame: {
     id: 'minigame',
