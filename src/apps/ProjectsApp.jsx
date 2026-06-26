@@ -85,13 +85,13 @@ function StatusBadge({ status }) {
   );
 }
 
-function ProjectPreview({ project }) {
+function ProjectPreview({ project, onTechClick }) {
   if (!project) return null;
   return (
     <div className="flex-1 overflow-y-auto retro-scrollbar p-4 flex flex-col gap-4 min-w-0">
       <div className="border-2 border-os-ink">
         <div className="bg-os-ink px-3 py-1.5 flex items-center justify-between">
-          <span className="font-display text-[9px] text-os-accent">{project.name}</span>
+          <span className="font-display text-[15px] text-os-accent">{project.name}</span>
           <StatusBadge status={project.status} />
         </div>
         <div className="px-3 py-3 bg-os-window">
@@ -103,7 +103,7 @@ function ProjectPreview({ project }) {
       
       <div className="border-2 border-os-ink">
         <div className="bg-os-accent px-3 py-1.5 border-b-2 border-os-ink">
-          <span className="font-display text-[7px] text-os-ink">// HIGHLIGHTS</span>
+          <span className="font-display text-[12px] text-os-ink">// HIGHLIGHTS</span>
         </div>
         <div className="px-3 py-3 flex flex-col gap-2">
           {project.highlights.map((h, i) => (
@@ -117,17 +117,18 @@ function ProjectPreview({ project }) {
       
       <div className="border-2 border-os-ink">
         <div className="bg-os-accent px-3 py-1.5 border-b-2 border-os-ink">
-          <span className="font-display text-[7px] text-os-ink">// STACK</span>
+          <span className="font-display text-[12px] text-os-ink">// STACK</span>
         </div>
         <div className="px-3 py-3 flex flex-wrap gap-2">
           {project.stack.map(tech => (
-            <span
+            <button
               key={tech}
-              className="font-body text-os-ink border border-os-ink px-2 py-0.5 bg-os-window"
+              onClick={() => onTechClick(tech)}
+              className="relative font-body text-os-ink border border-os-ink px-2 py-0.5 bg-os-window hover:-translate-x-[6px] hover:-translate-y-[6px] hover:shadow-pill hover:bg-os-ink hover:text-os-accent transition-all cursor-pointer after:absolute after:top-0 after:left-0 after:w-full after:h-full hover:after:w-[calc(100%+6px)] hover:after:h-[calc(100%+6px)] after:content-['']"
               style={{ fontSize: '18px' }}
             >
               {tech}
-            </span>
+            </button>
           ))}
         </div>
       </div>
@@ -137,7 +138,7 @@ function ProjectPreview({ project }) {
           href={project.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="font-display text-[7px] border-2 border-os-ink px-3 py-2 text-os-ink hover:bg-os-ink hover:text-os-accent transition-colors"
+          className="relative font-display text-[7px] border-2 border-os-ink px-3 py-2 text-os-ink hover:-translate-x-[6px] hover:-translate-y-[6px] hover:shadow-pill hover:bg-os-ink hover:text-os-accent transition-all after:absolute after:top-0 after:left-0 after:w-full after:h-full hover:after:w-[calc(100%+6px)] hover:after:h-[calc(100%+6px)] after:content-['']"
         >
           ▸ GITHUB
         </a>
@@ -146,7 +147,7 @@ function ProjectPreview({ project }) {
             href={project.live}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-display text-[7px] border-2 border-os-ink px-3 py-2 bg-os-accent text-os-ink hover:bg-os-ink hover:text-os-accent transition-colors"
+            className="relative font-display text-[7px] border-2 border-os-ink px-3 py-2 bg-os-accent text-os-ink hover:-translate-x-[6px] hover:-translate-y-[6px] hover:shadow-pill hover:bg-os-ink hover:text-os-accent transition-all after:absolute after:top-0 after:left-0 after:w-full after:h-full hover:after:w-[calc(100%+6px)] hover:after:h-[calc(100%+6px)] after:content-['']"
           >
             ▸ LIVE DEMO
           </a>
@@ -251,7 +252,10 @@ export default function ProjectsApp() {
         onMouseDown={handleMouseDown}
       />
       
-      <ProjectPreview project={filteredProjects.find(p => p.id === selected)} />
+      <ProjectPreview 
+        project={filteredProjects.find(p => p.id === selected)} 
+        onTechClick={setTechFilter}
+      />
     </div>
   );
 }

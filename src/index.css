@@ -19,6 +19,7 @@
   --shadow-retro: 6px 6px 0px #3C5564;
   --shadow-retro-sm: 4px 4px 0px #3C5564;
   --shadow-retro-active: 2px 2px 0px #3C5564;
+  --shadow-pill: 1px 1px 0px #F1DAEC, 2px 2px 0px #F1DAEC, 3px 3px 0px #F1DAEC, 4px 4px 0px #F1DAEC, 5px 5px 0px #F1DAEC, 6px 6px 0px #F1DAEC;
 }
 
 /* 2. Global Styles */

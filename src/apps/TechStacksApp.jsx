@@ -55,7 +55,7 @@ export default function TechStacksApp() {
                 <button
                   key={tech}
                   onClick={() => handleTechClick(tech)}
-                  className="font-body text-os-ink border border-os-ink px-2 py-0.5 bg-os-window hover:bg-os-ink hover:text-os-accent transition-colors cursor-pointer text-left"
+                  className="relative font-body text-os-ink border border-os-ink px-2 py-0.5 bg-os-window hover:-translate-x-[6px] hover:-translate-y-[6px] hover:shadow-pill hover:bg-os-ink hover:text-os-accent transition-all cursor-pointer text-left after:absolute after:top-0 after:left-0 after:w-full after:h-full hover:after:w-[calc(100%+6px)] hover:after:h-[calc(100%+6px)] after:content-['']"
                   style={{ fontSize: '18px' }}
                 >
                   {tech}
