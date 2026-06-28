@@ -26,7 +26,7 @@ function IconImage({ app }) {
   return (
     <img
       src={app.icon}
-      className="w-12 h-12 pointer-events-none"
+      className="w-13 h-13 pointer-events-none"
       alt={app.title}
       draggable={false}
       onError={() => setImgError(true)}
@@ -110,7 +110,7 @@ export default function DesktopIcon({ app, isSelected, onSelect, position, onDra
     >
       <IconImage app={app} />
       <span
-        className={`font-display text-[6px] text-center leading-tight break-words w-full pointer-events-none ${
+        className={`font-display text-[7px] text-center leading-tight break-words w-full pointer-events-none ${
           isSelected ? 'bg-os-ink text-os-accent px-0.5' : 'text-os-ink'
         }`}
       >

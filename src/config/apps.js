@@ -1,10 +1,9 @@
 import AboutApp from '../apps/AboutApp';
 import ProjectsApp from '../apps/ProjectsApp';
 import TechStacksApp from '../apps/TechStacksApp';
-import ReachOutApp from '../apps/ReachOutApp';
+import ConnectApp from '../apps/ConnectApp';
 import ActivityMapApp from '../apps/ActivityMapApp';
 import WeatherApp from '../apps/WeatherApp';
-import MinigameApp from '../apps/MinigameApp';
 import MusicPlayerApp from '../apps/MusicPlayerApp';
 import ResumeApp from '../apps/ResumeApp';
 
@@ -14,7 +13,6 @@ import programIcon from '../assets/program.png';
 import techStackIcon from '../assets/tech stack.png';
 import envelopeIcon from '../assets/envelope.png';
 import calendarIcon from '../assets/calendar.png';
-import arcadeIcon from '../assets/arcade-machine.png';
 import vinylIcon from '../assets/vinyl player.gif';
 import folderIcon from '../assets/folder.png';
 import resumeIcon from '../assets/resume.png';
@@ -44,13 +42,13 @@ export const APPS = {
     defaultSize: { width: 600, height: 500 },
     minSize: { width: 320, height: 280 },
   },
-  reachout: {
-    id: 'reachout',
-    title: 'Reach Out',
+  connect: {
+    id: 'connect',
+    title: 'Connect',
     icon: envelopeIcon,
-    component: ReachOutApp,
-    defaultSize: { width: 500, height: 420 },
-    minSize: { width: 280, height: 220 },
+    component: ConnectApp,
+    defaultSize: { width: 580, height: 420 },
+    minSize: { width: 350, height: 320 },
   },
   activity: {
     id: 'activity',
@@ -58,7 +56,7 @@ export const APPS = {
     icon: calendarIcon,
     component: ActivityMapApp,
     defaultSize: { width: 800, height: 560 },
-    minSize: { width: 420, height: 320 },
+    minSize: { width: 625, height: 320 },
   },
   weather: {
     id: 'weather',
@@ -68,14 +66,6 @@ export const APPS = {
     component: WeatherApp,
     defaultSize: { width: 440, height: 380 },
     minSize: { width: 260, height: 200 },
-  },
-  minigame: {
-    id: 'minigame',
-    title: 'Minigame',
-    icon: arcadeIcon,
-    component: MinigameApp,
-    defaultSize: { width: 600, height: 560 },
-    minSize: { width: 320, height: 320 },
   },
   music: {
     id: 'music',
