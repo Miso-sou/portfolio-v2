@@ -20,7 +20,7 @@ jobs:
       - name: Download Resume from Google Drive
         run: |
           # Replace 'YOUR_FILE_ID_HERE' with the actual File ID of your resume PDF
-          FILE_ID="YOUR_FILE_ID_HERE"
+          FILE_ID="1QE8Wxu63ylVkX0ZI9ck_nzLN9Xig4gki"
           
           # Download the file from Google Drive directly into the public folder
           wget -O public/resume.pdf "https://drive.google.com/uc?export=download&id=${FILE_ID}"
