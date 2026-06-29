@@ -4,6 +4,7 @@ import { useWindowStore } from '../../store/windowStore.js';
 import GifClockWidget from '../widgets/GifClockWidget.jsx';
 import DesktopIcon from './DesktopIcon.jsx';
 import Window from './Window.jsx';
+import GlobalAudio from './GlobalAudio.jsx';
 
 const appList = Object.values(APPS);
 
@@ -133,6 +134,9 @@ export default function Desktop() {
     >
       {/* Clock widget */}
       <GifClockWidget />
+
+      {/* Global background audio */}
+      <GlobalAudio />
 
       {/* Desktop icons (each absolutely positioned) */}
       {appList.map((app) => (

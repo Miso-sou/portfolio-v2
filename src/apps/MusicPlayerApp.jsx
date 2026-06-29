@@ -1,202 +1,92 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
+import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 import vinylGif from '../assets/vinyl player.gif';
+import { useMusicStore, TRACKS } from '../store/musicStore.js';
 
-/**
- * Lo-fi beats music player.
- * Uses native HTML5 Audio for maximum reliability (no YouTube iframe blocks).
- * Tracks are direct MP3 links (royalty-free for demo purposes).
- */
-
-const TRACKS = [
-  {
-    title: 'Chill Bro',
-    artist: 'Mixkit',
-    url: 'https://assets.mixkit.co/music/preview/mixkit-chill-bro-89.mp3',
-  },
-  {
-    title: 'Sleepy Cat',
-    artist: 'Mixkit',
-    url: 'https://assets.mixkit.co/music/preview/mixkit-sleepy-cat-135.mp3',
-  },
-  {
-    title: 'Tech House Vibes',
-    artist: 'Mixkit',
-    url: 'https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3',
-  },
-  {
-    title: 'Hip Hop 02',
-    artist: 'Retro',
-    url: 'https://assets.mixkit.co/music/preview/mixkit-hip-hop-02-738.mp3',
-  },
-  {
-    title: 'Sun and His Daughter',
-    artist: 'Mixkit',
-    url: 'https://assets.mixkit.co/music/preview/mixkit-sun-and-his-daughter-580.mp3',
-  },
-];
+const PlayingIndicator = () => {
+  const [dots, setDots] = useState('');
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots(d => d.length >= 3 ? '.' : d + '.');
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Use a fixed width so it doesn't shift the title text
+  return <span className="inline-block w-4 text-left font-display text-os-accent">{dots}</span>;
+};
 
 export default function MusicPlayerApp() {
-  const [currentTrack, setCurrentTrack] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
-  const [progress, setProgress] = useState(0); // 0 to 1
-  const [duration, setDuration] = useState(0);
-  
-  const audioRef = useRef(null);
-  const track = TRACKS[currentTrack];
+  const currentTrackIndex = useMusicStore((s) => s.currentTrackIndex);
+  const isPlaying = useMusicStore((s) => s.isPlaying);
+  const volume = useMusicStore((s) => s.volume);
 
-  // Initialize and handle play/pause
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-      if (isPlaying) {
-        audioRef.current.play().catch(e => {
-          console.error("Audio playback failed:", e);
-          setIsPlaying(false);
-        });
-      } else {
-        audioRef.current.pause();
-      }
-    }
-  }, [isPlaying, currentTrack]); // Re-run when track changes to auto-play next
+  const togglePlay = useMusicStore((s) => s.togglePlay);
+  const nextTrack = useMusicStore((s) => s.nextTrack);
+  const prevTrack = useMusicStore((s) => s.prevTrack);
+  const setVolume = useMusicStore((s) => s.setVolume);
+  const setTrack = useMusicStore((s) => s.setTrack);
 
-  // Handle volume changes
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume;
-    }
-  }, [volume]);
-
-  const togglePlay = useCallback(() => {
-    setIsPlaying((p) => !p);
-  }, []);
-
-  const nextTrack = useCallback(() => {
-    setCurrentTrack((i) => (i + 1) % TRACKS.length);
-    setProgress(0);
-    setIsPlaying(true);
-  }, []);
-
-  const prevTrack = useCallback(() => {
-    setCurrentTrack((i) => (i - 1 + TRACKS.length) % TRACKS.length);
-    setProgress(0);
-    setIsPlaying(true);
-  }, []);
-
-  const handleTimeUpdate = useCallback(() => {
-    if (audioRef.current && duration > 0) {
-      setProgress(audioRef.current.currentTime / duration);
-    }
-  }, [duration]);
-
-  const handleLoadedMetadata = useCallback(() => {
-    if (audioRef.current) {
-      setDuration(audioRef.current.duration);
-    }
-  }, []);
-
-  const handleEnded = useCallback(() => {
-    nextTrack();
-  }, [nextTrack]);
-
-  const handleSeek = useCallback((e) => {
-    if (!audioRef.current || duration === 0) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const fraction = (e.clientX - rect.left) / rect.width;
-    const newTime = fraction * duration;
-    audioRef.current.currentTime = newTime;
-    setProgress(fraction);
-  }, [duration]);
-
-  const formatTime = (seconds) => {
-    if (!seconds || !isFinite(seconds)) return '0:00';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${String(s).padStart(2, '0')}`;
-  };
+  const track = TRACKS[currentTrackIndex];
 
   return (
-    <div className="flex flex-col h-full gap-3 bg-os-window">
-      {/* Native Audio Element */}
-      <audio
-        ref={audioRef}
-        src={track.url}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
-        onEnded={handleEnded}
-        onError={() => nextTrack()}
-      />
-
-      {/* Vinyl animation */}
-      <div className="flex justify-center mt-2">
-        <div
-          className="border-2 border-os-ink p-1 bg-os-accent/20"
-          style={{
-            animation: isPlaying ? 'spin-vinyl 3s linear infinite' : 'none',
-          }}
-        >
+    <div className="flex flex-col h-full bg-os-window">
+      {/* Vinyl display */}
+      <div className="flex justify-center pt-3 pb-1">
+        <div className="p-2 bg-os-accent/10 rounded-full shadow-[inset_0_2px_8px_rgba(0,0,0,0.1)]">
           <img
             src={vinylGif}
             alt="Vinyl player"
-            className="w-28 h-28"
+            className="w-24 h-24 opacity-95 drop-shadow-sm"
             draggable={false}
           />
         </div>
       </div>
 
-      {/* Track info */}
-      <div className="text-center">
-        <div className="font-display text-[12px] text-os-ink truncate">{track.title}</div>
-        <div className="text-sm font-body text-os-ink/70 truncate">{track.artist}</div>
-      </div>
-
-      {/* Progress bar */}
-      <div className="flex items-center gap-2 px-2">
-        <span className="font-display text-[7px] text-os-ink w-8 text-right shrink-0">
-          {formatTime(progress * duration)}
-        </span>
-        <div
-          className="flex-1 h-3 border-2 border-os-ink bg-os-window cursor-pointer relative"
-          onClick={handleSeek}
-        >
-          <div
-            className="h-full bg-os-accent pointer-events-none"
-            style={{ width: `${progress * 100}%` }}
-          />
+      {/* Track info with animated dots */}
+      <div className="text-center mt-1 px-4">
+        <div className="font-display text-[12px] text-os-ink truncate flex items-center justify-center gap-1 leading-snug">
+          {isPlaying && <PlayingIndicator />}
+          {track.title}
         </div>
-        <span className="font-display text-[7px] text-os-ink w-8 shrink-0">
-          {formatTime(duration)}
-        </span>
+        <div className="text-[11px] font-body text-os-ink/60 truncate mt-0.5">{track.artist}</div>
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-5 mt-3">
         <button
           onClick={prevTrack}
-          className="w-8 h-8 border-2 border-os-ink font-display text-[10px] text-os-ink bg-os-window hover:bg-os-accent/30 active:shadow-retro-active shadow-retro-sm cursor-pointer"
-          title="Previous"
+          className="p-1.5 text-os-ink/80 hover:text-os-accent hover:bg-os-ink/5 rounded-full transition-colors active:scale-95 cursor-pointer"
+          title="Previous Station"
         >
-          ◀◀
+          <SkipBack size={20} fill="currentColor" />
         </button>
+        
         <button
           onClick={togglePlay}
-          className="w-12 h-12 border-2 border-os-ink font-display text-lg text-os-ink bg-os-accent hover:bg-os-accent/80 active:shadow-retro-active shadow-retro-sm cursor-pointer"
+          className="p-3 bg-os-accent text-os-bg hover:bg-os-ink hover:text-os-bg rounded-full transition-all active:scale-95 shadow-md shadow-os-accent/30 cursor-pointer flex items-center justify-center"
           title={isPlaying ? 'Pause' : 'Play'}
         >
-          {isPlaying ? '▐▐' : '▶'}
+          {isPlaying ? (
+            <Pause size={22} fill="currentColor" />
+          ) : (
+            <Play size={22} fill="currentColor" className="ml-0.5" />
+          )}
         </button>
+        
         <button
           onClick={nextTrack}
-          className="w-8 h-8 border-2 border-os-ink font-display text-[10px] text-os-ink bg-os-window hover:bg-os-accent/30 active:shadow-retro-active shadow-retro-sm cursor-pointer"
-          title="Next"
+          className="p-1.5 text-os-ink/80 hover:text-os-accent hover:bg-os-ink/5 rounded-full transition-colors active:scale-95 cursor-pointer"
+          title="Next Station"
         >
-          ▶▶
+          <SkipForward size={20} fill="currentColor" />
         </button>
       </div>
 
       {/* Volume */}
-      <div className="flex items-center gap-2 px-4 mt-1">
-        <span className="font-display text-[7px] text-os-ink">VOL</span>
+      <div className="flex items-center gap-2 px-6 mt-3">
+        <Volume2 size={14} className="text-os-ink/60" />
         <input
           type="range"
           min="0"
@@ -204,61 +94,82 @@ export default function MusicPlayerApp() {
           step="0.05"
           value={volume}
           onChange={(e) => setVolume(parseFloat(e.target.value))}
-          className="flex-1 cursor-pointer"
-          style={{ height: '4px' }}
+          className="flex-1 cursor-pointer custom-slider"
         />
-        <span className="font-display text-[7px] text-os-ink w-6 text-right">
-          {Math.round(volume * 100)}
+        <span className="font-display text-[8px] text-os-ink/70 w-8 text-right">
+          {Math.round(volume * 100)}%
         </span>
       </div>
 
       {/* Track list */}
-      <div className="flex-1 overflow-auto retro-scrollbar border-t-2 border-os-ink pt-2 mt-2">
-        <div className="font-display text-[8px] text-os-ink mb-1 px-2">PLAYLIST</div>
+      <div className="flex-1 overflow-auto retro-scrollbar border-t border-os-ink/10 pt-1.5 mt-3 bg-os-bg/40">
+        <div className="font-display text-[9px] text-os-ink/50 mb-2 px-4 pt-2">RADIO STATIONS</div>
+        
         {TRACKS.map((t, i) => (
           <div
             key={i}
-            onClick={() => {
-              setCurrentTrack(i);
-              setProgress(0);
-              setIsPlaying(true);
-            }}
-            className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors ${
-              i === currentTrack
-                ? 'bg-os-accent/40 border-l-2 border-os-ink'
-                : 'hover:bg-os-accent/20 border-l-2 border-transparent'
+            onClick={() => setTrack(i)}
+            className={`flex items-center gap-4 px-5 py-3 cursor-pointer transition-all ${
+              i === currentTrackIndex
+                ? 'bg-os-accent/10 border-l-4 border-os-accent'
+                : 'hover:bg-os-ink/5 border-l-4 border-transparent'
             }`}
           >
-            <span className="font-display text-[8px] text-os-ink w-4 shrink-0 text-center">
-              {i === currentTrack && isPlaying ? '♫' : `${i + 1}`}
-            </span>
+            <div className={`w-4 text-center ${i === currentTrackIndex ? 'text-os-accent' : 'text-os-ink/40'}`}>
+              {i === currentTrackIndex && isPlaying ? (
+                <div className="flex gap-[2px] justify-center h-3 items-end">
+                  <div className="w-1 bg-os-accent animate-[bounce_1s_infinite_0ms]"></div>
+                  <div className="w-1 bg-os-accent animate-[bounce_1s_infinite_200ms]"></div>
+                  <div className="w-1 bg-os-accent animate-[bounce_1s_infinite_400ms]"></div>
+                </div>
+              ) : (
+                <span className="font-display text-[9px]">{i + 1}</span>
+              )}
+            </div>
             <div className="min-w-0">
-              <div className="font-body text-lg text-os-ink truncate leading-tight">{t.title}</div>
-              <div className="font-display text-[6px] text-os-ink/60 truncate leading-tight">{t.artist}</div>
+              <div className={`font-body text-[15px] truncate leading-tight ${
+                i === currentTrackIndex ? 'text-os-accent font-bold' : 'text-os-ink/90'
+              }`}>
+                {t.title}
+              </div>
+              <div className="font-display text-[7px] text-os-ink/50 truncate leading-tight mt-1">
+                {t.artist}
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* CSS animation for vinyl spin */}
+      {/* Custom styles */}
       <style>{`
-        @keyframes spin-vinyl {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        
-        /* Custom range slider styling for retro feel */
-        input[type=range] {
+        /* Smooth, modern range slider */
+        .custom-slider {
           -webkit-appearance: none;
-          background: var(--color-os-ink);
-        }
-        input[type=range]::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          width: 8px;
+          background: transparent;
           height: 16px;
+        }
+        .custom-slider::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 4px;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: 2px;
+        }
+        :global(.dark) .custom-slider::-webkit-slider-runnable-track {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        .custom-slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          height: 14px;
+          width: 14px;
+          border-radius: 50%;
           background: var(--color-os-accent);
-          border: 2px solid var(--color-os-ink);
+          margin-top: -5px;
           cursor: pointer;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+          transition: transform 0.1s;
+        }
+        .custom-slider::-webkit-slider-thumb:hover {
+          transform: scale(1.15);
         }
       `}</style>
     </div>
