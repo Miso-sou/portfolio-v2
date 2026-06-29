@@ -5,12 +5,12 @@ export const TRACKS = [
   {
     title: 'Lofi Hip Hop Radio',
     artist: 'Laut.fm 24/7 Live',
-    url: 'http://lofi.stream.laut.fm/lofi',
+    url: 'https://lofi.stream.laut.fm/lofi',
   },
   {
     title: 'Nightwave Plaza',
     artist: 'Vaporwave Radio',
-    url: 'http://radio.plaza.one/mp3',
+    url: 'https://radio.plaza.one/mp3',
   },
   {
     title: 'Lofi Study & Chill',
