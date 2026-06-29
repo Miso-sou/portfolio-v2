@@ -9,7 +9,7 @@ const SKILLS = [
   },
   {
     category: 'Frontend',
-    items: ['React', 'Tailwind CSS', 'Redux Toolkit', 'TanStack Query']
+    items: ['React', 'Tailwind CSS', 'Zustand', 'Redux Toolkit', 'TanStack Query']
   },
   {
     category: 'Backend',
@@ -25,7 +25,7 @@ const SKILLS = [
   },
   {
     category: 'Tools',
-    items: ['Git', 'GitHub', 'Jest', 'GitHub Actions', 'Unity', 'OpenXR', 'XR Interaction Toolkit', 'Postman']
+    items: ['Git', 'GitHub', 'Vite', 'Jest', 'GitHub Actions', 'Unity', 'OpenXR', 'XR Interaction Toolkit', 'Postman']
   }
 ];
 

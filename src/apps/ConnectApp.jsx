@@ -45,7 +45,7 @@ export default function ConnectApp() {
       <div className="border-b-[3px] border-os-ink pb-3 mb-2 flex items-center justify-between">
         <div>
           <h1 className="font-display text-xl text-os-ink tracking-wide">Let's Connect</h1>
-          <p className="font-body text-os-ink opacity-80 mt-1 text-sm">
+          <p className="font-body text-os-ink opacity-80 mt-1 text-m">
             Feel free to reach out for collaborations or just a quick chat!
           </p>
         </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import codechefLogo from '../assets/platforms/codechef.svg';
 import leetcodeLogo from '../assets/platforms/LeetCode_logo_black.png';
 import codeforcesLogo from '../assets/platforms/codeforces.webp';
@@ -242,7 +243,7 @@ export default function ActivityMapApp() {
             <span className="font-display text-xs animate-pulse">Loading data...</span>
           </div>
         ) : (
-          <div className="relative w-max mt-2">
+          <div className="relative w-max mt-2" onMouseLeave={() => setHoveredCell(null)}>
             {/* Months Header */}
             <div className="flex absolute top-[-18px] left-[24px]">
               {gridData.monthsPos.map((m, i) => (
@@ -272,7 +273,7 @@ export default function ActivityMapApp() {
                   {week.map((day, di) => (
                     <div
                       key={di}
-                      onMouseEnter={(e) => !day.isFuture && setHoveredCell({ ...day, rect: e.target.getBoundingClientRect() })}
+                      onMouseEnter={(e) => day.isFuture ? setHoveredCell(null) : setHoveredCell({ ...day, rect: e.target.getBoundingClientRect() })}
                       className={`w-3 h-3 ${day.isFuture ? 'bg-transparent' : LEVELS[day.level]} cursor-pointer transition-colors duration-75`}
                     />
                   ))}
@@ -340,13 +341,14 @@ export default function ActivityMapApp() {
       )}
 
       {/* Tooltip */}
-      {hoveredCell && (
+      {hoveredCell && createPortal(
         <div 
           ref={tooltipRef}
-          className="fixed pointer-events-none z-50 bg-os-ink text-os-bg p-3 border-2 border-os-accent shadow-[4px_4px_0px_var(--color-os-accent)] transition-opacity duration-150"
+          className="fixed pointer-events-none z-[99999] bg-os-ink text-os-bg p-3 border-2 border-os-accent shadow-[4px_4px_0px_var(--color-os-accent)] transition-all duration-100 ease-out"
           style={{
-            top: hoveredCell.rect.top - 110,
-            left: hoveredCell.rect.left - 70,
+            top: hoveredCell.rect.bottom + 9,
+            left: hoveredCell.rect.left + (hoveredCell.rect.width / 2),
+            transform: 'translateX(-50%)'
           }}
         >
           <div className="font-display text-[10px] mb-2 border-b border-os-bg/30 pb-1 uppercase tracking-wider text-os-accent">
@@ -362,7 +364,8 @@ export default function ActivityMapApp() {
               <span className="font-bold">{hoveredCell.cp} submissions</span>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
       </div>
     </div>

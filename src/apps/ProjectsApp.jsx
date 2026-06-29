@@ -4,6 +4,23 @@ import { useProjectStore } from '../store/projectStore';
 
 const PROJECTS = [
   {
+    id: 'portfolio-v2',
+    name: 'Retro OS Portfolio',
+    status: 'DEPLOYED',
+    category: 'WEB',
+    year: '2026',
+    tagline: 'A fully interactive, window-based developer portfolio modeled after retro operating systems.',
+    highlights: [
+      'Engineered a robust window management system using Zustand for global state and react-rnd for draggable, resizable application windows.',
+      'Implemented a persistent, global background audio engine that continues playing live radio streams across app lifecycles.',
+      'Designed a cohesive pixel-art aesthetic with custom Tailwind CSS utility tokens, responsive grid layouts, and polished micro-animations.',
+      'Developed multiple interconnected mini-apps including a GitHub/LeetCode Activity Map, Music Player, and dynamic Tech Stack viewer.'
+    ],
+    stack: ['React', 'Tailwind CSS', 'Zustand', 'Vite', 'Lucide React'],
+    github: 'https://github.com/Miso-sou/portfolio-v2',
+    live: 'https://daivik-wadhwani.vercel.app',
+  },
+  {
     id: 'splitsmart',
     name: 'SplitSmart',
     status: 'DEPLOYED',
