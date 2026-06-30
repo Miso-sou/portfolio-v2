@@ -56,6 +56,7 @@ const formatDay = (dateString) => {
 
 export default function WeatherApp() {
   const [weather, setWeather] = useState(null);
+  const [city, setCity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -86,6 +87,16 @@ export default function WeatherApp() {
             maxTemp: Math.round(data.daily.temperature_2m_max[i]),
             minTemp: Math.round(data.daily.temperature_2m_min[i]),
           })).slice(1, 6); // next 5 days
+
+          // Reverse geocode to get city name
+          try {
+            const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&zoom=10`);
+            const geoData = await geoRes.json();
+            const addr = geoData.address;
+            setCity(addr?.city || addr?.town || addr?.village || addr?.county || null);
+          } catch {
+            // City name is non-critical, ignore errors
+          }
 
           setWeather({
             current: {
@@ -158,17 +169,28 @@ export default function WeatherApp() {
         
         <div className="flex-1 p-3 flex flex-col justify-center gap-2">
           <div>
-            <div className="font-display text-[7px] text-os-ink opacity-70 mb-1">CONDITIONS</div>
-            <div className="font-body text-lg text-os-ink leading-none uppercase">
+            <div className="font-display text-[10px] text-os-ink opacity-70 mb-1">CONDITIONS</div>
+            <div className="font-body text-xl text-os-ink leading-none uppercase">
               {getWeatherDescription(weather.current.wmoCode)}
             </div>
           </div>
           
           <div className="w-full h-[2px] bg-os-ink opacity-20 my-0.5"></div>
+
+          {city && (
+            <div>
+              <div className="font-display text-[10px] text-os-ink opacity-70 mb-1">LOCATION</div>
+              <div className="font-body text-xl text-os-ink leading-none">
+                {city}
+              </div>
+            </div>
+          )}
+          
+          <div className="w-full h-[2px] bg-os-ink opacity-20 my-0.5"></div>
           
           <div>
-            <div className="font-display text-[7px] text-os-ink opacity-70 mb-1">WIND SPD</div>
-            <div className="font-body text-lg text-os-ink leading-none">
+            <div className="font-display text-[10px] text-os-ink opacity-70 mb-1">WIND SPEED</div>
+            <div className="font-body text-xl text-os-ink leading-none">
               {weather.current.windSpeed} km/h
             </div>
           </div>

@@ -64,8 +64,8 @@ export const APPS = {
     icon: null, // Dynamic — handled by WeatherIcon component
     dynamicIcon: true,
     component: WeatherApp,
-    defaultSize: { width: 523, height: 380 },
-    minSize: { width: 523, height: 200 },
+    defaultSize: { width: 523, height: 568 },
+    minSize: { width: 400, height: 200 },
   },
   music: {
     id: 'music',

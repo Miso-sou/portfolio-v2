@@ -91,3 +91,15 @@
     animation: aboutBlink 0.8s step-end infinite;
   }
 }
+
+/* 4. Mobile Overrides */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .mobile-section {
+    scroll-margin-top: 12px;
+  }
+}
