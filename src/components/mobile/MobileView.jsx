@@ -475,18 +475,19 @@ export default function MobileView() {
   return (
     <div className="min-h-screen bg-os-bg pb-20">
       {/* ── ASCII Header ── */}
-      <div className="pt-8 pb-2 px-1 w-full overflow-hidden flex justify-center">
-        <pre 
-          className="text-os-ink whitespace-pre select-all"
-          style={{ 
-            fontFamily: '"Courier New", Courier, monospace', 
-            fontSize: 'min(2.2vw, 10px)',
-            lineHeight: '1'
-          }}
-        >
-          {ASCII_HEADER}
-        </pre>
-      </div>
+      <div className="pt-8 pb-2 px-1">
+        <div className="w-full overflow-hidden flex justify-center">
+          <pre 
+            className="text-os-ink whitespace-pre select-all"
+            style={{ 
+              fontFamily: '"Courier New", Courier, monospace', 
+              fontSize: 'min(2.2vw, 10px)',
+              lineHeight: '1'
+            }}
+          >
+            {ASCII_HEADER}
+          </pre>
+        </div>
         <div className="text-center mt-4">
           <p className="font-body text-os-ink text-[20px]">
             Full-Stack Dev &nbsp;// &nbsp;XR Researcher
