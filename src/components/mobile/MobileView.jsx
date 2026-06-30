@@ -477,7 +477,7 @@ export default function MobileView() {
       {/* ── ASCII Header ── */}
       <div className="pt-8 pb-2 px-4">
         <div className="overflow-x-auto retro-scrollbar">
-          <pre className="font-mono text-os-ink leading-[1.2] text-[7px] whitespace-pre mx-auto w-fit select-all">
+          <pre className="font-mono text-os-ink leading-[1.15] text-[10px] whitespace-pre mx-auto w-fit select-all">
             {ASCII_HEADER}
           </pre>
         </div>
@@ -490,16 +490,6 @@ export default function MobileView() {
           </p>
         </div>
       </div>
-
-      {/* ── Resume Link ── */}
-      <a
-        href="/resume.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block mx-4 mt-3 border-2 border-os-ink bg-os-accent px-4 py-2.5 font-display text-[9px] text-os-ink text-center shadow-retro-sm active:shadow-retro-active active:translate-x-[2px] active:translate-y-[2px] transition-all"
-      >
-        ▸ VIEW RESUME (PDF)
-      </a>
 
       {/* ═══════════════════════
          ABOUT
