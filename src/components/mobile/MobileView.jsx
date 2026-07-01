@@ -478,9 +478,8 @@ export default function MobileView() {
       <div className="pt-8 pb-2 px-1">
         <div className="w-full overflow-hidden flex justify-center">
           <pre 
-            className="text-os-ink whitespace-pre select-all"
+            className="text-os-ink whitespace-pre select-all font-mono"
             style={{ 
-              fontFamily: 'var(--font-ascii)',
               fontSize: 'min(2.2vw, 10px)',
               lineHeight: '1.1',
               WebkitTextSizeAdjust: 'none'

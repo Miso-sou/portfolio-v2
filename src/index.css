@@ -1,8 +1,4 @@
-:root {
-  color-scheme: light only;
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 @import "tailwindcss";
 
 /* 1. Define your new Lo-Fi Retro Theme Tokens */
@@ -18,7 +14,6 @@
 
   --font-display: "Press Start 2P", cursive;
   --font-body: "VT323", monospace;
-  --font-ascii: "JetBrains Mono", monospace;
 
   /* Updated shadows using the new Dark Slate color for that retro-brutalist pop */
   --shadow-retro: 6px 6px 0px #3C5564;
