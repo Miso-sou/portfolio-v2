@@ -62,6 +62,7 @@ export default function ActivityMapApp() {
   const [hoveredCell, setHoveredCell] = useState(null);
   const [loading, setLoading] = useState(true);
   const tooltipRef = useRef(null);
+  const calendarScrollRef = useRef(null);
 
   useEffect(() => {
     Promise.all([
@@ -78,6 +79,24 @@ export default function ActivityMapApp() {
         setLoading(false);
       });
   }, []);
+
+  // Auto-scroll calendar grid to latest date (far right) when data loads / app opens
+  useEffect(() => {
+    if (!loading && calendarScrollRef.current) {
+      const scrollToEnd = () => {
+        if (calendarScrollRef.current) {
+          calendarScrollRef.current.scrollLeft = calendarScrollRef.current.scrollWidth;
+        }
+      };
+      scrollToEnd();
+      const raf = requestAnimationFrame(scrollToEnd);
+      const timer = setTimeout(scrollToEnd, 100);
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+      };
+    }
+  }, [loading, data]);
 
   const stats = useMemo(() => {
     let totalCommits = 0;
@@ -226,7 +245,7 @@ export default function ActivityMapApp() {
       </div>
 
       {/* Grid Container */}
-      <div className="p-4 shrink-0 overflow-x-auto retro-scrollbar flex flex-col justify-center">
+      <div ref={calendarScrollRef} className="p-4 shrink-0 overflow-x-auto retro-scrollbar flex flex-col justify-center">
         <div className="flex items-center justify-between mb-4">
           <span className="font-body text-sm text-os-ink opacity-80">Live Activity Map (Last 12 Months)</span>
           <div className="flex items-center gap-1.5">

@@ -47,13 +47,13 @@ export const useMusicStore = create(
       nextTrack: () => set((state) => ({
         currentTrackIndex: (state.currentTrackIndex + 1) % TRACKS.length,
         progress: 0,
-        isPlaying: true
+        isPlaying: state.isPlaying
       })),
       
       prevTrack: () => set((state) => ({
         currentTrackIndex: (state.currentTrackIndex - 1 + TRACKS.length) % TRACKS.length,
         progress: 0,
-        isPlaying: true
+        isPlaying: state.isPlaying
       })),
       
       setTrack: (index) => set({ currentTrackIndex: index, progress: 0, isPlaying: true }),

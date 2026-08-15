@@ -318,11 +318,18 @@ export default function MobileView() {
   /* ── Auto-scroll heatmap to end (show latest day) ── */
   useEffect(() => {
     if (!loading && heatmapScrollRef.current) {
-      requestAnimationFrame(() => {
+      const scrollToEnd = () => {
         if (heatmapScrollRef.current) {
           heatmapScrollRef.current.scrollLeft = heatmapScrollRef.current.scrollWidth;
         }
-      });
+      };
+      scrollToEnd();
+      const raf = requestAnimationFrame(scrollToEnd);
+      const timer = setTimeout(scrollToEnd, 100);
+      return () => {
+        cancelAnimationFrame(raf);
+        clearTimeout(timer);
+      };
     }
   }, [loading, activityData]);
 
@@ -528,6 +535,10 @@ export default function MobileView() {
             </p>
             <a
               href="/resume.pdf"
+              onClick={(e) => {
+                e.preventDefault();
+                window.open(`/resume.pdf?v=${Date.now()}`, '_blank', 'noopener,noreferrer');
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="border border-os-ink bg-os-window px-2 py-1.5 font-display text-[7px] text-os-ink shadow-[2px_2px_0px_var(--color-os-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_var(--color-os-ink)] transition-all shrink-0 text-center"

@@ -52,17 +52,27 @@ export default function GlobalAudio() {
   }, [setDuration]);
 
   const handleEnded = useCallback(() => {
-    nextTrack();
-  }, [nextTrack]);
+    if (isPlaying) {
+      nextTrack();
+    }
+  }, [isPlaying, nextTrack]);
+
+  const handleError = useCallback(() => {
+    // Only auto-advance to next station if the audio was actively playing when an error occurred
+    if (isPlaying) {
+      nextTrack();
+    }
+  }, [isPlaying, nextTrack]);
 
   return (
     <audio
       ref={audioRef}
       src={track.url}
+      preload="none"
       onTimeUpdate={handleTimeUpdate}
       onLoadedMetadata={handleLoadedMetadata}
       onEnded={handleEnded}
-      onError={() => nextTrack()}
+      onError={handleError}
     />
   );
 }
