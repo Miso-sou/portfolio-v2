@@ -1,13 +1,8 @@
 {
-  "codeforces": {
-    "handle": "Misou_sou",
-    "rating": 949,
-    "maxRating": 949,
-    "rank": "NEWBIE"
-  },
+  "codeforces": null,
   "leetcode": {
     "handle": "miso_so",
-    "solved": 288,
+    "solved": 290,
     "rating": 1542,
     "badge": "N/A"
   },
