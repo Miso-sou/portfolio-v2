@@ -1,5 +1,10 @@
 {
-  "codeforces": null,
+  "codeforces": {
+    "handle": "Misou_sou",
+    "rating": 949,
+    "maxRating": 949,
+    "rank": "NEWBIE"
+  },
   "leetcode": {
     "handle": "miso_so",
     "solved": 290,
