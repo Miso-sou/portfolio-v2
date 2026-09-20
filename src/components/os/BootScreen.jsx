@@ -26,9 +26,14 @@ const BOOT_LINES = [
   { type: 'welcome' },
 ];
 
-const LINE_DELAY = 150; // ms between lines (slowed down)
-const PROGRESS_DURATION = 1000; // ms for progress bar to fill (slowed down)
-const FADE_DURATION = 800; // ms for fade-out
+// Keep the complete boot sequence, including its progress animation, within
+// a 1.5 second visit. The short waiting window still lets keyboard/mouse input
+// advance the screen immediately, while the timeout guarantees it cannot stall.
+const INITIAL_DELAY = 150;
+const LINE_DELAY = 120;
+const PROGRESS_DURATION = 250;
+const WAIT_DURATION = 100;
+const FADE_DURATION = 250;
 
 const SESSION_KEY = 'boot-screen-seen';
 
@@ -37,6 +42,7 @@ export default function BootScreen({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('booting'); // 'booting' | 'waiting' | 'exit'
   const timerRef = useRef(null);
+  const progressIntervalRef = useRef(null);
   const doneRef = useRef(false);
   const bottomRef = useRef(null);
 
@@ -57,6 +63,9 @@ export default function BootScreen({ onComplete }) {
   const enterDesktop = useCallback(() => {
     if (doneRef.current) return;
     doneRef.current = true;
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+    if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
 
     try {
       sessionStorage.setItem(SESSION_KEY, '1');
@@ -101,19 +110,22 @@ export default function BootScreen({ onComplete }) {
           setProgress(Math.min(100, Math.round(p)));
           if (p >= 100) {
             clearInterval(progressInterval);
+            progressIntervalRef.current = null;
             timerRef.current = setTimeout(showNextLine, LINE_DELAY);
           }
         }, stepTime);
+        progressIntervalRef.current = progressInterval;
       } else {
         timerRef.current = setTimeout(showNextLine, LINE_DELAY);
       }
     };
 
     // Initial delay before starting
-    timerRef.current = setTimeout(showNextLine, 600);
+    timerRef.current = setTimeout(showNextLine, INITIAL_DELAY);
 
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
+      if (progressIntervalRef.current) clearInterval(progressIntervalRef.current);
     };
   }, [onComplete]);
 
@@ -124,9 +136,12 @@ export default function BootScreen({ onComplete }) {
     const handle = () => enterDesktop();
     window.addEventListener('keydown', handle);
     window.addEventListener('click', handle);
+    timerRef.current = setTimeout(enterDesktop, WAIT_DURATION);
+
     return () => {
       window.removeEventListener('keydown', handle);
       window.removeEventListener('click', handle);
+      if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [phase, enterDesktop]);
 
